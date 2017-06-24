@@ -9,7 +9,7 @@
 ;	Output: 	HL = Screen address
 ;				A  = Pixel position
 ;
-;	Clobbers: 	None
+;	Clobbers: 	A
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetPixelAddr:
 	ld		a, e			; use copy of x coord
@@ -147,18 +147,18 @@ DecY:
 ;	Clobbers: 	A
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	
 GetCharAddr:
-	ld 		a, d		; get y
-	rrca				; rotate y3 - y5 into pos
+	ld 		a, d			; get y
+	rrca					; rotate y3 - y5 into pos
 	rrca
 	rrca
-	and 	224			; isolate
-	or 		e			; merge x
-	ld 		l, a		; and store
+	and 	224				; isolate
+	or 		e				; merge x
+	ld 		l, a			; and store
 	
-	ld 		a, d		; get y
-	and		248			; isolate y6 and y7
-	or		64			; bring in high bit for attr	
-	ld		h, a		; and store
+	ld 		a, d			; get y
+	and		248				; isolate y6 and y7
+	or		64				; bring in high bit for attr	
+	ld		h, a			; and store
 	
 	ret
 
@@ -175,13 +175,13 @@ GetCharAddr:
 ;	Clobbers: 	A
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 GetAttrAddr:
-	ld		a, h		; get high byte of screen addr
-	rra					; rotate bits 3 and 4 of screen addr
-	rra					; (screen third bits)
-	rra					; into first 2 bits of h
-	and		3			; and isolate them
-	or		$58			; set attr start
-	ld		h, a		; store attr address
+	ld		a, h			; get high byte of screen addr
+	rra						; rotate bits 3 and 4 of screen addr
+	rra						; (screen third bits)
+	rra						; into first 2 bits of h
+	and		3				; and isolate them
+	or		$58				; set attr start
+	ld		h, a			; store attr address
 	
 	ret
 
@@ -211,12 +211,12 @@ GetAttrXY:
 	
 	ret
 
-org		($ + 255) / 256 * 256
+org ($ + 255) / 256 * 256	; align to 256 bytes
 
 AttrTbl:
-	rept 24, y
+	REPT 24, y
 		dw	22528+32*y
-	endm
+	ENDM
 
 
 ; GetAttrXY:
