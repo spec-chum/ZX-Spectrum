@@ -157,7 +157,7 @@ GetCharAddr:
 	
 	ld 		a, d			; get y
 	and		248				; isolate y6 and y7
-	or		64				; bring in high bit for attr	
+	or		64				; bring in screen high bit	
 	ld		h, a			; and store
 	
 	ret
